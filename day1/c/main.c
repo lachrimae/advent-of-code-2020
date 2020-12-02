@@ -17,7 +17,7 @@ int* filter_within(int* vals, int lower, int upper, int* response_length) {
     return indices;
 }
 
-// This is a slightly fancy algorithm. The idea is that if we can assume that the numbers
+// This is a heuristic algorithm. The idea is that if we can assume that the numbers
 // are not too closely bunched in the range (0, 2000), then the outer loop's O(n) time will predominate
 // instead of what would otherwise be O(n^2) time.
 int main()
