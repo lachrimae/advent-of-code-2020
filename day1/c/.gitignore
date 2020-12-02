@@ -1,1 +1,4 @@
 .vimrc
+report.html
+_build
+_shake
