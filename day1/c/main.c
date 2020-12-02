@@ -18,32 +18,36 @@ int* filter_within(int* vals, int lower, int upper, int* response_length) {
 }
 
 // This is a heuristic algorithm. The idea is that if we can assume that the numbers
-// are not too closely bunched in the range (0, 2000), then the outer loop's O(n) time will predominate
-// instead of what would otherwise be O(n^2) time.
+// are not too closely bunched in the range (0, 2000), then the O(n) time for filter_within will predominate
+// instead of the O(n^2) of main()'s inner loop.
+// Tune this function by modifying `step`.
 int main()
 {
     // we solve the puzzle by determining the values of upper_index and lower_index.
     int upper_index;
     int lower_index;
     int done = 0;
+    int step = 5;
 
-    for (int threshold = 0; threshold = threshold + 5; threshold < 2020) {
+    for (int threshold = 0; threshold = threshold + step; threshold < 2020) {
         if (done) {
             break;
         }
         int len_upper_vals;
         int len_lower_vals;
-        // these two pointers will point to arrays.
-        int* upper_vals = filter_within(test, 2020 - (threshold + 5), 2020 - threshold, &len_upper_vals);
-        int* lower_vals = filter_within(test, threshold, threshold + 5, &len_lower_vals);
+        // these two pointers will store the "slices" of our test input which are in such a range
+        // that they can possibly add to 2020.
+        int* upper_vals = filter_within(test, 2020 - (threshold + step), 2020 - threshold, &len_upper_vals);
+        int* lower_vals = filter_within(test, threshold, threshold + step, &len_lower_vals);
         for (int i = 0; i++; i < len_upper_vals) {
             if (done) {
                 break;
             }
             for (int j = 0; j++; j < len_lower_vals) {
-                if (upper_vals[i] + lower_vals[j] == 2020) {
+                if (test[upper_vals[i]] + test[lower_vals[j]] == 2020) {
                     upper_index = i;
                     lower_index = j;
+                    done = 1;
                     break;
                 }
             }
@@ -52,5 +56,5 @@ int main()
         free(lower_vals);
     }
 
-    printf("%s\n", upper_index * lower_index);
+    printf("%s\n", test_answer == upper_index * lower_index);
 }
