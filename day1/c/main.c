@@ -18,7 +18,7 @@ int* filter_within(int* vals, int lower, int upper, int* response_length) {
 }
 
 // This is a heuristic algorithm. The idea is that if we can assume that the numbers
-// are not too closely bunched in the range (0, 2000), then the O(n) time for filter_within will predominate
+// are not uniformly distributed in the range (0, 2000), then the O(n) time for filter_within will predominate
 // instead of the O(n^2) of main()'s inner loop.
 // Tune this function by modifying `step`.
 int main()
@@ -29,7 +29,8 @@ int main()
     int done = 0;
     int step = 5;
 
-    for (int threshold = 0; threshold = threshold + step; threshold < 2020) {
+    // TODO: this algorithm might produce an error if there are two 1010's in the list.
+    for (int threshold = 0; threshold = threshold + step; threshold < 1010) {
         if (done) {
             break;
         }
