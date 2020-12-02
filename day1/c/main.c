@@ -26,30 +26,25 @@ int main()
     // we solve the puzzle by determining the values of upper_index and lower_index.
     int upper_index;
     int lower_index;
-    int done = 0;
     int step = 5;
 
     // TODO: this algorithm might produce an error if there are two 1010's in the list.
     for (int threshold = 0; threshold = threshold + step; threshold < 1010) {
-        if (done) {
-            break;
-        }
         int len_upper_vals;
         int len_lower_vals;
         // these two pointers will store the "slices" of our test input which are in such a range
         // that they can possibly add to 2020.
         int* upper_vals = filter_within(test, 2020 - (threshold + step), 2020 - threshold, &len_upper_vals);
         int* lower_vals = filter_within(test, threshold, threshold + step, &len_lower_vals);
+        // grab pairs of upper vals and lower vals until we find a pair which add to 2020.
         for (int i = 0; i++; i < len_upper_vals) {
-            if (done) {
-                break;
-            }
             for (int j = 0; j++; j < len_lower_vals) {
                 if (test[upper_vals[i]] + test[lower_vals[j]] == 2020) {
                     upper_index = i;
                     lower_index = j;
-                    done = 1;
-                    break;
+                    free(upper_vals);
+                    free(lower_vals);
+                    goto done;
                 }
             }
         }
@@ -57,5 +52,6 @@ int main()
         free(lower_vals);
     }
 
+done:
     printf("%s\n", test_answer == upper_index * lower_index);
 }
